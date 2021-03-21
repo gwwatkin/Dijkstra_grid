@@ -131,11 +131,11 @@ void GridWithRoughBoundaries::edge_weight(const Vertex& s, const Vertex& t, doub
 }
 
 
-int GridWithRoughBoundaries::label(const Vertex& s) const {
+GridWithRoughBoundaries::VertexLabel GridWithRoughBoundaries::label(const Vertex& s) const {
     return s.row*side_length_ + s.col;
 }
 
-Vertex GridWithRoughBoundaries::vertex_from_label(int l) const {
+Vertex GridWithRoughBoundaries::vertex_from_label(GridWithRoughBoundaries::VertexLabel l) const {
     return Vertex{static_cast<int>(l/this->nodes_per_side()), static_cast<int>(l%this->nodes_per_side())};
 }
 
@@ -143,4 +143,12 @@ Vertex GridWithRoughBoundaries::vertex_from_label(int l) const {
 int GridWithRoughBoundaries::num_edges() const
 {
     return detail::compute_num_edges(nodes_per_side());
+}
+
+
+GridWithRoughBoundariesBoostGraph::GridWithRoughBoundariesBoostGraph(const GridWithRoughBoundaries& g)
+:graph_ref(g) { }
+
+GridWithRoughBoundariesBoostGraph::VertexLabelIterator GridWithRoughBoundariesBoostGraph::get_vertex_iterator() const {
+    return 0;
 }

@@ -25,15 +25,20 @@ std::ostream& operator<<(std::ostream& os, const Vertex& v);
 
 class GridWithRoughBoundaries {
 public:
+
+    using VertexLabel = int;
+    using EdgeLabel = std::pair<VertexLabel,VertexLabel>;
+    using EdgeWeight = double;
+
     explicit GridWithRoughBoundaries(int side_nodes_count);
 
 
-    double edge_weight(const Vertex& s, const Vertex& t) const;
+    EdgeWeight edge_weight(const Vertex& s, const Vertex& t) const;
     void edge_weight(const Vertex& s, const Vertex& t, double new_value);
 
     /// Get a unique label for each vertex
-    int label(const Vertex& s) const;
-    Vertex vertex_from_label(int l) const;
+    VertexLabel label(const Vertex& s) const;
+    Vertex vertex_from_label(VertexLabel l) const;
 
     void traverse_nodes(const std::function<void(Vertex)>& f) const;
     void traverse_edges(const std::function<void(Vertex,Vertex)>& f) const;
@@ -41,9 +46,32 @@ public:
     int nodes_per_side() const {return side_length_;}
     int num_edges() const;
 
+
+
 private:
     const int side_length_;
     std::vector<double> weights_;
+};
+
+
+
+class GridWithRoughBoundariesBoostGraph
+{
+public:
+
+    explicit GridWithRoughBoundariesBoostGraph(const GridWithRoughBoundaries& g);
+
+
+    using VertexLabelIterator = std::vector<GridWithRoughBoundaries::VertexLabel>::iterator;
+    using EdgeLabelIterator = std::vector<GridWithRoughBoundaries::EdgeLabel>::iterator;
+
+    VertexLabelIterator get_vertex_iterator() const;
+    EdgeLabelIterator get_edge_iterator() const;
+
+private:
+    const GridWithRoughBoundaries& graph_ref;
+    std::vector<GridWithRoughBoundaries::EdgeLabel> edge_list;
+
 };
 
 

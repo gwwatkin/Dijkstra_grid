@@ -9,6 +9,9 @@ find_package(Boost)
 
 
 add_executable(dijkstraX dijkstraX.cpp)
+add_executable(jhonsonX jhonsonX.cpp)
+
+add_executable(grid_graph_example GridWithRoughBoundaries.cpp grid_graph_example.cpp)
 
 add_executable(GridWithRoughBoundaries_test GridWithRoughBoundaries.cpp GridWithRoughBoundaries_test.cpp)
 
